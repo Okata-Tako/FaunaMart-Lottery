@@ -1,0 +1,310 @@
+<html>
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        :root {
+            --slot-item-size: 28vw;
+        }
+
+        .unselectable {
+            -webkit-user-select: none; /* Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+
+        body {
+            background-color: darkgreen;
+        }
+
+        .roll-lotto {
+            width: 100px;
+            height: 100px;
+            background-color: greenyellow;
+        }
+
+        .lotto-number-display {
+            position: absolute;
+            width: 50vw;
+            height: 30vw;
+            background-color: greenyellow;
+            top: calc((100vh - 30vw) / 2);
+            left: 25vw;
+            display: flex;
+            flex-direction: row;
+            border-radius: 2vw;
+            justify-content: center;
+            gap: 1vw;
+        }
+
+        .number-slot {
+            margin-top: 1vw;
+            width: calc(15.33vw);
+            height: calc(var(--slot-item-size));
+            background-color: goldenrod;
+            border-radius: 1vw;
+            overflow: hidden;
+        }
+
+        @keyframes rolling-slots {
+            0% { top: calc(var(--slot-item-size) * -9); }
+            99.99% { top: 0; }
+            100% { top: calc(var(--slot-item-size) * -9); }
+        }
+
+        .slot-strip {
+            position: relative;
+        }
+
+        .slot-strip-rolling {
+            animation-name: rolling-slots;
+            animation-timing-function: linear;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        .number-slot:nth-of-type(1) > .slot-strip {
+            animation-delay: 000ms;
+        }
+
+        .number-slot:nth-of-type(2) > .slot-strip {
+            animation-delay: 628ms;
+        }
+
+        .number-slot:nth-of-type(3) > .slot-strip {
+            animation-delay: 942ms;
+        }
+
+        .slot-item {
+            width: 100%;
+            height: 100%;
+            font-size: calc(15vw);
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: calc(var(--slot-item-size));
+            background-color: goldenrod;
+            border-radius: 1vw;
+        }
+
+
+
+    </style>
+
+    <head>
+
+    </head>
+
+    <body>
+
+        <!--
+            <div class="roll-lotto" id="roll-lotto-btn"></div>
+        -->
+
+        <div class="lotto-number-display" id="lottoNumDisplay">
+            <div class="number-slot" id="numSltOne">
+                <div class="slot-strip" id="sltStrpOne">
+                    <div class="unselectable slot-item">1</div>
+                    <div class="unselectable slot-item">9</div>
+                    <div class="unselectable slot-item">8</div>
+                    <div class="unselectable slot-item">7</div>
+                    <div class="unselectable slot-item">6</div>
+                    <div class="unselectable slot-item">5</div>
+                    <div class="unselectable slot-item">4</div>
+                    <div class="unselectable slot-item">3</div>
+                    <div class="unselectable slot-item">2</div>
+                    <div class="unselectable slot-item">1</div>
+                </div>
+            </div>
+            <div class="number-slot" id="numSltTwo">
+                <div class="slot-strip" id="sltStrpTwo">
+                    <div class="unselectable slot-item">1</div>
+                    <div class="unselectable slot-item">9</div>
+                    <div class="unselectable slot-item">8</div>
+                    <div class="unselectable slot-item">7</div>
+                    <div class="unselectable slot-item">6</div>
+                    <div class="unselectable slot-item">5</div>
+                    <div class="unselectable slot-item">4</div>
+                    <div class="unselectable slot-item">3</div>
+                    <div class="unselectable slot-item">2</div>
+                    <div class="unselectable slot-item">1</div>
+                </div>
+            </div>
+            <div class="number-slot" id="numSltThr">
+                <div class="slot-strip" id="sltStrpThr">
+                    <div class="unselectable slot-item">1</div>
+                    <div class="unselectable slot-item">9</div>
+                    <div class="unselectable slot-item">8</div>
+                    <div class="unselectable slot-item">7</div>
+                    <div class="unselectable slot-item">6</div>
+                    <div class="unselectable slot-item">5</div>
+                    <div class="unselectable slot-item">4</div>
+                    <div class="unselectable slot-item">3</div>
+                    <div class="unselectable slot-item">2</div>
+                    <div class="unselectable slot-item">1</div>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+
+    <script>
+
+        var lottoRolling = false;
+
+
+
+        function RollThreeDigitNumber()
+        {
+            var availableNums = [1,2,3,4,5,6,7,8,9];
+
+            var randIdx = Math.floor(availableNums.length * Math.random());
+            var firstDigit = availableNums[randIdx];
+            availableNums.splice(randIdx,1);
+
+            var randIdx = Math.floor(availableNums.length * Math.random());
+            var secondDigit = availableNums[randIdx];
+            availableNums.splice(randIdx,1);
+
+            var randIdx = Math.floor(availableNums.length * Math.random());
+            var thirdDigit = availableNums[randIdx];
+            availableNums.splice(randIdx,1);
+
+            return firstDigit + '' + secondDigit + '' + thirdDigit;
+        }
+
+
+        function CreateNumberElems()
+        {
+
+        }
+
+        window.onload = () => {
+            
+            var lottoNumDisplayElem = document.getElementById("lottoNumDisplay");
+            var sltStrpOneElem = document.getElementById("sltStrpOne");
+            var sltStrpTwoElem = document.getElementById("sltStrpTwo");
+            var sltStrpThrElem = document.getElementById("sltStrpThr");
+            
+
+
+
+            lottoNumDisplayElem.onclick = (e) => {
+                
+                if (!lottoRolling
+                && !sltStrpOneElem.classList.contains("slot-strip-rolling")
+                && !sltStrpTwoElem.classList.contains("slot-strip-rolling")
+                && !sltStrpThrElem.classList.contains("slot-strip-rolling"))
+                {
+                    console.log("now we rolling");
+                    sltStrpOneElem.classList.add("slot-strip-rolling");
+                    sltStrpTwoElem.classList.add("slot-strip-rolling");
+                    sltStrpThrElem.classList.add("slot-strip-rolling");
+                    lottoRolling = true;
+                }
+                else if(lottoRolling
+                && sltStrpOneElem.classList.contains("slot-strip-rolling")
+                && sltStrpTwoElem.classList.contains("slot-strip-rolling")
+                && sltStrpThrElem.classList.contains("slot-strip-rolling"))
+                {
+                    //var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+                    //var itemHeight = vw * .28;
+
+                    var lottoResult = RollThreeDigitNumber();
+
+                    var firstDigit = lottoResult[0];
+                    var seconDigit = lottoResult[1];
+                    var thirdDigit = lottoResult[2];
+
+                    var firstTimeStart = "calc(var(--slot-item-size) * 0)";
+                    var firstTimeEnd = "calc(var(--slot-item-size) * 0)";
+                    var seconTimeStart = "calc(var(--slot-item-size) * 0)";
+                    var seconTimeEnd = "calc(var(--slot-item-size) * 0)";
+                    var thirdTimeStart = "calc(var(--slot-item-size) * 0)";
+                    var thirdTimeEnd = "calc(var(--slot-item-size) * 0)";
+
+                    if(firstDigit == 1)
+                    {
+                        firstTimeStart = "calc(var(--slot-item-size) * -1)";   
+                    }
+                    else
+                    {
+                        firstTimeStart = "calc(var(--slot-item-size) * " + -1 * (11 - firstDigit) + ")";
+                        firstTimeEnd = "calc(var(--slot-item-size) * " + -1 * (11 - firstDigit) + ")";
+                    }
+
+                    if(seconDigit == 1)
+                    {
+                        seconTimeStart = "calc(var(--slot-item-size) * -1)";   
+                    }
+                    else
+                    {
+                        seconTimeStart = "calc(var(--slot-item-size) * " + -1 * (11 - seconDigit) + ")";
+                        seconTimeEnd = "calc(var(--slot-item-size) * " + -1 * (11 - seconDigit) + ")";
+                    }
+
+                    if(thirdDigit == 1)
+                    {
+                        thirdTimeStart = "calc(var(--slot-item-size) * -1)";   
+                    }
+                    else
+                    {
+                        thirdTimeStart = "calc(var(--slot-item-size) * " + -1 * (11 - thirdDigit) + ")";
+                        thirdTimeEnd = "calc(var(--slot-item-size) * " + -1 * (11 - thirdDigit) + ")";
+                    }
+
+                    var slotOneTop = sltStrpOneElem.offsetTop;
+                    sltStrpOneElem.classList.remove("slot-strip-rolling");
+                    sltStrpOneElem.style.top = firstTimeEnd;
+                    sltStrpOneElem.animate([
+                        { top: firstTimeStart, easing: "linear" },
+                        { top: firstTimeEnd, easing: "ease-out" }
+                    ], 200);
+
+                    setTimeout(function() {
+                        var slotTwoTop = sltStrpTwoElem.offsetTop;
+                        sltStrpTwoElem.classList.remove("slot-strip-rolling");
+                        sltStrpTwoElem.style.top = seconTimeEnd;
+                        sltStrpTwoElem.animate([
+                            { top: seconTimeStart, easing: "linear" },
+                            { top: seconTimeEnd, easing: "ease-out" }
+                        ], 200);
+                    }, 1000);
+
+                    setTimeout(function() {
+                        var slotThrTop = sltStrpThrElem.offsetTop;
+                        sltStrpThrElem.classList.remove("slot-strip-rolling");
+                        sltStrpThrElem.style.top = thirdTimeEnd;
+                        sltStrpThrElem.animate([
+                            { top: thirdTimeStart, easing: "linear" },
+                            { top: thirdTimeEnd, easing: "ease-out" }
+                        ], 200);
+                        lottoRolling = false;
+                        console.log("we stopped rolling");
+                    }, 2000);
+
+                }
+
+            }
+
+
+
+
+            /*
+            var rollLottoBtnElem = document.getElementById("roll-lotto-btn");
+
+            rollLottoBtnElem.onclick = (e) => {
+                //rollLottoBtnElem.innerHTML = RollThreeDigitNumber();
+            }
+            */
+
+        }
+    </script>
+
+
+</html>
